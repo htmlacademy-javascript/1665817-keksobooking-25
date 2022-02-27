@@ -49,15 +49,34 @@ const getRandomFloat = (a, b, digits = 1) => {
 
 const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
 
-const getAvatar = (i) => {
-  getRandomNumber(1, 10);
-  getRandomNumber[i < 10] ? `img/avatars/user0${getRandomNumber[i]}.png` : `img/avatars/user${getRandomNumber[i]}.png`;
+
+const getRandomLengthArray = (features) => {
+  const maxLength = features.length;
+  const lengthOfArray = getRandomNumber(1, maxLength);
+  const array = [];
+
+  while (array.length < lengthOfArray) {
+    const indexOfEl = getRandomNumber(0, maxLength - 1);
+    const el = features[indexOfEl];
+
+    if (!array.includes(el)) {
+      array.push(el);
+    }
+  }
+  return array;
 };
 
+const usersId = Array.from({ length: 10 }, (v, i) => ++i);
+
+const getUniqueID = () => {
+  const imgID = usersId.splice(getRandomNumber(usersId), 1);
+
+  return imgID < 10 ? `img/avatars/user0${imgID}.png` : `img/avatars/user${imgID}.png`;
+};
 
 const createObjects = () => ({
   author: {
-    avatar: getAvatar,
+    avatar: getUniqueID(),
   },
   offer: {
     title: 'Наше предложение:',
@@ -68,13 +87,13 @@ const createObjects = () => ({
     guests: getRandomNumber(1, 10),
     checkin: getRandomArrayElement(TIME),
     checkout: getRandomArrayElement(TIME),
-    features: '',
+    features: getRandomLengthArray(FEATURES),
     description: 'Лучший выбор за эти деньги!',
-    photos: '',
+    photos: getRandomLengthArray(PHOTOS),
   },
   location: {
-    lat: getRandomFloat(LAT_MIN, LAT_MAX),
-    lng: getRandomFloat(LNG_MIN, LNG_MAX),
+    lat: getRandomFloat(LAT_MIN, LAT_MAX, 4),
+    lng: getRandomFloat(LNG_MIN, LNG_MAX, 4),
   },
 });
 
