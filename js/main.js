@@ -74,29 +74,36 @@ const getUniqueID = () => {
   return imgID < 10 ? `img/avatars/user0${imgID}.png` : `img/avatars/user${imgID}.png`;
 };
 
-const createObjects = () => ({
-  author: {
-    avatar: getUniqueID(),
-  },
-  offer: {
-    title: 'Наше предложение:',
-    address: '',
-    price: getRandomNumber(1000, 10000),
-    type: getRandomArrayElement(TYPE),
-    rooms: getRandomNumber(1, 5),
-    guests: getRandomNumber(1, 10),
-    checkin: getRandomArrayElement(TIME),
-    checkout: getRandomArrayElement(TIME),
-    features: getRandomLengthArray(FEATURES),
-    description: 'Лучший выбор за эти деньги!',
-    photos: getRandomLengthArray(PHOTOS),
-  },
-  location: {
-    lat: getRandomFloat(LAT_MIN, LAT_MAX, 4),
-    lng: getRandomFloat(LNG_MIN, LNG_MAX, 4),
-  },
-});
+
+const createObjects = () => {
+
+  const locationLat = getRandomFloat(LAT_MIN, LAT_MAX, 4);
+  const locationLng = getRandomFloat(LNG_MIN, LNG_MAX, 4);
+
+  return {
+    author: {
+      avatar: getUniqueID(),
+    },
+    offer: {
+      title: 'Наше предложение:',
+      address: `${locationLat} ${locationLng}`,
+      price: getRandomNumber(1000, 10000),
+      type: getRandomArrayElement(TYPE),
+      rooms: getRandomNumber(1, 5),
+      guests: getRandomNumber(1, 10),
+      checkin: getRandomArrayElement(TIME),
+      checkout: getRandomArrayElement(TIME),
+      features: getRandomLengthArray(FEATURES),
+      description: 'Лучший выбор за эти деньги!',
+      photos: getRandomLengthArray(PHOTOS),
+    },
+    location: {
+      lat: locationLat,
+      lng: locationLng,
+    },
+  };
+};
 
 const getObjects = Array.from({ length: 10 }, createObjects);
 
-console.log(getObjects);
+getObjects();
