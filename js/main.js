@@ -1,24 +1,108 @@
-const getRandomNumber = (min, max) => {
-  if (min >= max || min < 0) {
-    throw new Error('Дружище, перепроверь числа, которые пытаешься запихать сюда.');
-  }
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+const TYPE = [
+  'palace',
+  'flat',
+  'house',
+  'bungalow',
+  'hotel',
+];
 
+const TIME = [
+  '12:00',
+  '13:00',
+  '14:00',
+];
+
+const FEATURES = [
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner',
+];
+
+const PHOTOS = [
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
+];
+
+const LAT_MIN = 35.65000;
+const LAT_MAX = 35.70000;
+const LNG_MIN = 139.70000;
+const LNG_MAX = 139.80000;
+
+
+const getRandomNumber = (a, b) => {
+  const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
+  const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
+  return Math.floor(Math.random() * (upper - lower + 1)) + lower;
 };
-getRandomNumber();
 
 
-const getRandomFloat = (min, max, numder) => {
-  if (min >= max || min < 0) {
-    throw new Error('Дружище, перепроверь числа, которые пытаешься запихать сюда.');
-  }
-  const fraction = Math.random() * (max - min) + min;
-
-  return fraction.toFixed(numder);
+const getRandomFloat = (a, b, digits = 1) => {
+  const lower = Math.min(Math.abs(a), Math.abs(b));
+  const upper = Math.max(Math.abs(a), Math.abs(b));
+  const result = Math.random() * (upper - lower) + lower;
+  return +result.toFixed(digits);
 };
 
-getRandomFloat();
+const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements.length - 1)];
 
-// https://codepen.io/jsundai/pen/vYKxNZp
-// https://w3schoolsrus.github.io/js/js_number_methods.html#gsc.tab=0
-// использовал эти ссылки для поиска решения.
+
+const getRandomLengthArray = (features) => {
+  const maxLength = features.length;
+  const lengthOfArray = getRandomNumber(1, maxLength);
+  const newFeaturesArray = [];
+
+  while (newFeaturesArray.length < lengthOfArray) {
+    const indexOfEl = getRandomNumber(0, maxLength - 1);
+    const el = features[indexOfEl];
+
+    if (!newFeaturesArray.includes(el)) {
+      newFeaturesArray.push(el);
+    }
+  }
+  return newFeaturesArray;
+};
+
+const usersIds = Array.from({ length: 10 }, (v, i) => ++i);
+
+const getUniqueId = () => {
+  const imgId = usersIds.splice(getRandomNumber(0, usersIds.length - 1), 1);
+
+  return imgId < 10 ? `img/avatars/user0${imgId}.png` : `img/avatars/user${imgId}.png`;
+};
+
+
+const createAd = () => {
+
+  const locationLat = getRandomFloat(LAT_MIN, LAT_MAX, 4);
+  const locationLng = getRandomFloat(LNG_MIN, LNG_MAX, 4);
+
+  return {
+    author: {
+      avatar: getUniqueId(),
+    },
+    offer: {
+      title: 'Наше предложение:',
+      address: `${locationLat} ${locationLng}`,
+      price: getRandomNumber(1000, 10000),
+      type: getRandomArrayElement(TYPE),
+      rooms: getRandomNumber(1, 5),
+      guests: getRandomNumber(1, 10),
+      checkin: getRandomArrayElement(TIME),
+      checkout: getRandomArrayElement(TIME),
+      features: getRandomLengthArray(FEATURES),
+      description: 'Лучший выбор за эти деньги!',
+      photos: getRandomLengthArray(PHOTOS),
+    },
+    location: {
+      lat: locationLat,
+      lng: locationLng,
+    },
+  };
+};
+
+// eslint-disable-next-line no-unused-vars
+const ads = Array.from({ length: 10 }, createAd);
