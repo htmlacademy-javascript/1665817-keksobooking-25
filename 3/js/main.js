@@ -53,36 +53,36 @@ const getRandomArrayElement = (elements) => elements[getRandomNumber(0, elements
 const getRandomLengthArray = (features) => {
   const maxLength = features.length;
   const lengthOfArray = getRandomNumber(1, maxLength);
-  const array = [];
+  const newFeaturesArray = [];
 
-  while (array.length < lengthOfArray) {
+  while (newFeaturesArray.length < lengthOfArray) {
     const indexOfEl = getRandomNumber(0, maxLength - 1);
     const el = features[indexOfEl];
 
-    if (!array.includes(el)) {
-      array.push(el);
+    if (!newFeaturesArray.includes(el)) {
+      newFeaturesArray.push(el);
     }
   }
-  return array;
+  return newFeaturesArray;
 };
 
-const usersId = Array.from({ length: 10 }, (v, i) => ++i);
+const usersIds = Array.from({ length: 10 }, (v, i) => ++i);
 
-const getUniqueID = () => {
-  const imgID = usersId.splice(getRandomNumber(usersId), 1);
+const getUniqueId = () => {
+  const imgId = usersIds.splice(getRandomNumber(0, usersIds.length - 1), 1);
 
-  return imgID < 10 ? `img/avatars/user0${imgID}.png` : `img/avatars/user${imgID}.png`;
+  return imgId < 10 ? `img/avatars/user0${imgId}.png` : `img/avatars/user${imgId}.png`;
 };
 
 
-const createObjects = () => {
+const createAd = () => {
 
   const locationLat = getRandomFloat(LAT_MIN, LAT_MAX, 4);
   const locationLng = getRandomFloat(LNG_MIN, LNG_MAX, 4);
 
   return {
     author: {
-      avatar: getUniqueID(),
+      avatar: getUniqueId(),
     },
     offer: {
       title: 'Наше предложение:',
@@ -104,6 +104,5 @@ const createObjects = () => {
   };
 };
 
-const getObjects = Array.from({ length: 10 }, createObjects);
-
-getObjects();
+// eslint-disable-next-line no-unused-vars
+const ads = Array.from({ length: 10 }, createAd);
