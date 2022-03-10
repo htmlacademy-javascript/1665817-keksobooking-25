@@ -1,4 +1,6 @@
 import { createAd } from './data.js';
+import { render } from './renderData.js';
 
-// eslint-disable-next-line no-unused-vars
-const ads = Array.from({ length: 10 }, createAd);
+const ads = Array.from({ length: 1 }, createAd);
+render(ads);
+
