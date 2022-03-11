@@ -1,4 +1,4 @@
-const declension = (num, expression) => {
+const getDeclension = (num, expression) => {
   let result;
   let count = num % 100;
   if (count >= 5 && count <= 20) {
@@ -16,4 +16,4 @@ const declension = (num, expression) => {
   return result;
 };
 
-export default declension;
+export default getDeclension;
