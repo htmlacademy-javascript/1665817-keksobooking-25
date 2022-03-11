@@ -1,4 +1,4 @@
-import declension from './declension.js';
+import getDeclension from './declension.js';
 
 const adForm = document.querySelector('#map-canvas');
 
@@ -37,7 +37,7 @@ const render = (data) => {
         <p class="popup__text popup__text--address ${checkContent(item.offer.address)}"> ${item.offer.address}</p>
         <p class="popup__text popup__text--price ${checkContent(item.offer.price)}"> ${item.offer.price} <span>₽/ночь</span></p>
         <h4 class="popup__type ${checkContent(item.offer.type)}">${typesOfRooms[item.offer.type]}</h4>
-        <p class="popup__text popup__text--capacity ${checkContent(item.offer.rooms)} ${checkContent(item.offer.guests)}"> ${item.offer.rooms} ${declension(item.offer.rooms, ['комната', 'комнаты', 'комнат'])} для ${item.offer.guests} ${declension(item.offer.guests, ['гостя', 'гостей', 'гостей'])}</p>
+        <p class="popup__text popup__text--capacity ${checkContent(item.offer.rooms)} ${checkContent(item.offer.guests)}"> ${item.offer.rooms} ${getDeclension(item.offer.rooms, ['комната', 'комнаты', 'комнат'])} для ${item.offer.guests} ${getDeclension(item.offer.guests, ['гостя', 'гостей', 'гостей'])}</p>
         <p class="popup__text popup__text--time ${checkContent(item.offer.checkin)} ${checkContent(item.offer.checkout)}">Заезд после ${item.offer.checkin}, выезд до ${item.offer.checkout}</p>
         <ul class="popup__features ${checkContent(item.offer.features)}">
           ${getFeaturesList}
