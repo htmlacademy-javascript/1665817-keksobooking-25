@@ -43,7 +43,6 @@ const validateRooms = () => {
 
   pristine.reset();
   return capacityOptions[parseInt(roomNumber.value)].includes(parseInt(roomCapacity.value));
-
 };
 
 const getRoomsErrorMessage = () => {
@@ -73,6 +72,6 @@ form.addEventListener('submit', (e) => {
 });
 
 pristine.addValidator(roomNumber, validateRooms, getRoomsErrorMessage, 2, false);
-pristine.addValidator(roomCapacity, validateRooms);
+pristine.addValidator(roomCapacity, validateRooms, getRoomsErrorMessage, 2, false);
 
 export { unblockForms, map };
