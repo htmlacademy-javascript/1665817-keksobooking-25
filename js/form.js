@@ -66,7 +66,7 @@ form.addEventListener('submit', (e) => {
   }
 });
 
-pristine.addValidator(roomNumber, validateRooms, getRoomsErrorMessage, 2, false);
+pristine.addValidator(roomNumber, validateRooms, getRoomsErrorMessage, false);
 pristine.addValidator(roomCapacity, validateRooms);
 
 export { unblockForms, map };
