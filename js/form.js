@@ -32,23 +32,6 @@ const pristine = new Pristine(form, {
   errorTextClass: 'ad-form__error-text',
 });
 
-const validateTitle = (value) => value.length >= 30 && value.length <= 100;
-
-pristine.addValidator(
-  form.querySelector('#title'),
-  validateTitle,
-  'От 30 до 100 символов'
-);
-
-const validatePrice = (value) => value >= 0 && value <= 100000;
-
-pristine.addValidator(
-  form.querySelector('#price'),
-  validatePrice,
-  'Максимальная сумма - 100000р'
-);
-
-
 const capacityOptions = {
   1: [1],
   2: [1, 2],
@@ -58,15 +41,16 @@ const capacityOptions = {
 
 const validateRooms = () => capacityOptions[roomNumber.value].includes(roomCapacity.value);
 const getRoomsErrorMessage = () => {
-  switch (roomNumber.value) {
+  // eslint-disable-next-line radix
+  switch (parseInt(roomNumber.value)) {
     case 1:
-      return '1 комната - для одного гостя';
+      return 'Только для одного гостя';
     case 2:
-      return '2 комнаты - для 2 гостей или для 1 гостя';
+      return 'Только для одного либо 2х гостей';
     case 3:
-      return '3 комнаты - для 3 гостей, для 2 гостей или для 1 гостя';
+      return 'Для 3х, 2х либо 1 гостя';
     case 100:
-      return 'не для гостей';
+      return 'Это не для гостей';
   }
 };
 
@@ -82,7 +66,7 @@ form.addEventListener('submit', (e) => {
   }
 });
 
-pristine.addValidator(roomNumber, validateRooms, getRoomsErrorMessage);
-pristine.addValidator(roomCapacity, validateRooms, getRoomsErrorMessage);
+pristine.addValidator(roomNumber, validateRooms, getRoomsErrorMessage, 2, false);
+pristine.addValidator(roomCapacity, validateRooms);
 
 export { unblockForms, map };
