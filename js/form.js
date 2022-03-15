@@ -39,7 +39,13 @@ const capacityOptions = {
   100: [0],
 };
 
-const validateRooms = () => capacityOptions[roomNumber.value].includes(roomCapacity.value);
+const validateRooms = () => {
+
+  pristine.reset();
+  return capacityOptions[parseInt(roomNumber.value)].includes(parseInt(roomCapacity.value));
+
+};
+
 const getRoomsErrorMessage = () => {
   // eslint-disable-next-line radix
   switch (parseInt(roomNumber.value)) {
@@ -66,7 +72,7 @@ form.addEventListener('submit', (e) => {
   }
 });
 
-pristine.addValidator(roomNumber, validateRooms, getRoomsErrorMessage, false);
+pristine.addValidator(roomNumber, validateRooms, getRoomsErrorMessage, 2, false);
 pristine.addValidator(roomCapacity, validateRooms);
 
 export { unblockForms, map };
