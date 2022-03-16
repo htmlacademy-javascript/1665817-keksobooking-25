@@ -5,6 +5,7 @@ const mapInputs = mapFilters.querySelectorAll('select, fieldset');
 const map = document.querySelector('.map__canvas');
 const roomNumber = form.querySelector('#room_number');
 const roomCapacity = form.querySelector('#capacity');
+const btnSubmit = form.querySelector('.ad-form__submit');
 const allInputs = [...formInputs, ...mapInputs];
 
 form.classList.add('ad-form--disabled');
@@ -25,11 +26,8 @@ const unblockForms = () => {
 
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
-  errorClass: 'form__item--invalid',
-  successClass: 'form__item--valid',
   errorTextParent: 'ad-form__element',
   errorTextTag: 'span',
-  errorTextClass: 'ad-form__error-text',
 });
 
 const capacityOptions = {
@@ -42,6 +40,7 @@ const capacityOptions = {
 const validateRooms = () => {
 
   pristine.reset();
+  // eslint-disable-next-line radix
   return capacityOptions[parseInt(roomNumber.value)].includes(parseInt(roomCapacity.value));
 };
 
@@ -59,19 +58,32 @@ const getRoomsErrorMessage = () => {
   }
 };
 
-form.addEventListener('submit', (e) => {
+const getGuestsErrorMessage = () => {
+  // eslint-disable-next-line radix
+  switch (parseInt(roomCapacity.value)) {
+    case 3:
+      return 'Подойдёт только 3 комнаты';
+    case 2:
+      return 'Подойдёт 2 или 3 комнаты';
+    case 1:
+      return 'Подойдёт 1, 2 или 3 комнаты';
+    case 0:
+      return 'Для этого необходимо 100 комнат';
+  }
+};
+
+form.addEventListener('change', (e) => {
   e.preventDefault();
-  pristine.validate();
 
   const isValid = pristine.validate();
   if (isValid) {
-    console.log('Можно отправлять');
+    btnSubmit.disabled = false;
   } else {
-    console.log('Форма невалидна');
+    btnSubmit.disabled = true;
   }
 });
 
 pristine.addValidator(roomNumber, validateRooms, getRoomsErrorMessage, 2, false);
-pristine.addValidator(roomCapacity, validateRooms, getRoomsErrorMessage, 2, false);
+pristine.addValidator(roomCapacity, validateRooms, getGuestsErrorMessage, 2, false);
 
 export { unblockForms, map };
