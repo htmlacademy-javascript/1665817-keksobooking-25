@@ -37,12 +37,8 @@ const capacityOptions = {
   100: [0],
 };
 
-const validateRooms = () => {
-
-  pristine.reset();
-  // eslint-disable-next-line radix
-  return capacityOptions[parseInt(roomNumber.value)].includes(parseInt(roomCapacity.value));
-};
+// eslint-disable-next-line radix
+const validateRooms = () => capacityOptions[parseInt(roomNumber.value)].includes(parseInt(roomCapacity.value));
 
 const getRoomsErrorMessage = () => {
   // eslint-disable-next-line radix
