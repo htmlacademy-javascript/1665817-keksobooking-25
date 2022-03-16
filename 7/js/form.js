@@ -37,12 +37,11 @@ const capacityOptions = {
   100: [0],
 };
 
-// eslint-disable-next-line radix
-const validateRooms = () => capacityOptions[parseInt(roomNumber.value)].includes(parseInt(roomCapacity.value));
+
+const validateRooms = () => capacityOptions[parseInt(roomNumber.value, 10)].includes(parseInt(roomCapacity.value, 10));
 
 const getRoomsErrorMessage = () => {
-  // eslint-disable-next-line radix
-  switch (parseInt(roomNumber.value)) {
+  switch (parseInt(roomNumber.value, 10)) {
     case 1:
       return 'Только для одного гостя';
     case 2:
@@ -55,8 +54,7 @@ const getRoomsErrorMessage = () => {
 };
 
 const getGuestsErrorMessage = () => {
-  // eslint-disable-next-line radix
-  switch (parseInt(roomCapacity.value)) {
+  switch (parseInt(roomCapacity.value, 10)) {
     case 3:
       return 'Подойдёт только 3 комнаты';
     case 2:
