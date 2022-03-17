@@ -8,6 +8,8 @@ const roomCapacity = form.querySelector('#capacity');
 const btnSubmit = form.querySelector('.ad-form__submit');
 const price = form.querySelector('#price');
 const typeRooms = form.querySelector('#type');
+const checkIn = form.querySelector('#timein');
+const checkOut = form.querySelector('#timeout');
 const allInputs = [...formInputs, ...mapInputs];
 
 form.classList.add('ad-form--disabled');
@@ -39,6 +41,14 @@ const capacityOptions = {
   100: [0],
 };
 
+const pricesForRooms = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
+};
+
 
 const validateRooms = () => capacityOptions[parseInt(roomNumber.value, 10)].includes(parseInt(roomCapacity.value, 10));
 
@@ -68,35 +78,60 @@ const getGuestsErrorMessage = () => {
   }
 };
 
-form.addEventListener('change', (e) => {
-  e.preventDefault();
+const getPricesErrorMessage = () => {
+  switch (typeRooms.value) {
+    case 'bungalow':
+      return 'Минимальная цена - 0р';
+    case 'flat':
+      return 'Минимальная цена - 1000р';
+    case 'hotel':
+      return 'Минимальная цена - 3000р';
+    case 'house':
+      return 'Минимальная цена - 5000р';
+    case 'palace':
+      return 'Минимальная цена - 10000р';
+  }
+};
+
+const validatePrice = () => {
+
   pristine.reset();
 
   if (typeRooms.value === 'bungalow') {
-    pristine.reset();
+    price.min = 0;
     price.setAttribute('data-pristine-min-message', 'Не менее 0р');
-    price.placeholder = '0';
-    price.min = '0';
   } else if (typeRooms.value === 'flat') {
-    pristine.reset();
+    price.min = 1000;
     price.setAttribute('data-pristine-min-message', 'Не менее 1000р');
-    price.placeholder = '1000';
-    price.min = '1000';
   } else if (typeRooms.value === 'hotel') {
-    pristine.reset();
+    price.min = 3000;
     price.setAttribute('data-pristine-min-message', 'Не менее 3000р');
-    price.placeholder = '3000';
-    price.min = '3000';
   } else if (typeRooms.value === 'house') {
-    pristine.reset();
+    price.min = 5000;
     price.setAttribute('data-pristine-min-message', 'Не менее 5000р');
-    price.placeholder = '5000';
-    price.min = '5000';
   } else if (typeRooms.value === 'palace') {
-    pristine.reset();
+    price.min = 10000;
     price.setAttribute('data-pristine-min-message', 'Не менее 10000р');
+  }
+
+  return pricesForRooms[typeRooms.value] <= price.value;
+};
+
+form.addEventListener('change', (e) => {
+  e.preventDefault();
+
+  checkOut.value = checkIn.value;
+
+  if (typeRooms.value === 'bungalow') {
+    price.placeholder = '0';
+  } else if (typeRooms.value === 'flat') {
+    price.placeholder = '1000';
+  } else if (typeRooms.value === 'hotel') {
+    price.placeholder = '3000';
+  } else if (typeRooms.value === 'house') {
+    price.placeholder = '5000';
+  } else if (typeRooms.value === 'palace') {
     price.placeholder = '10000';
-    price.min = '10000';
   }
 
   const isValid = pristine.validate();
@@ -109,5 +144,7 @@ form.addEventListener('change', (e) => {
 
 pristine.addValidator(roomNumber, validateRooms, getRoomsErrorMessage, 2, false);
 pristine.addValidator(roomCapacity, validateRooms, getGuestsErrorMessage, 2, false);
+pristine.addValidator(price, validatePrice, getPricesErrorMessage, 2, false);
+pristine.addValidator(typeRooms, validatePrice, getPricesErrorMessage, 2, false);
 
 export { unblockForms, map };
