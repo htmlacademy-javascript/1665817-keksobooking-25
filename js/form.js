@@ -103,9 +103,7 @@ checkOut.addEventListener('change', () => {
   checkIn.value = checkOut.value;
 });
 
-form.addEventListener('change', (e) => {
-  e.preventDefault();
-
+typeRooms.addEventListener('change', () => {
   if (typeRooms.value === 'bungalow') {
     price.placeholder = '0';
   } else if (typeRooms.value === 'flat') {
@@ -117,6 +115,10 @@ form.addEventListener('change', (e) => {
   } else if (typeRooms.value === 'palace') {
     price.placeholder = '10000';
   }
+});
+
+form.addEventListener('change', (e) => {
+  e.preventDefault();
 
   const isValid = pristine.validate();
   if (isValid) {
