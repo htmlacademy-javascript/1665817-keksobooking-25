@@ -6,6 +6,10 @@ const map = document.querySelector('.map__canvas');
 const roomNumber = form.querySelector('#room_number');
 const roomCapacity = form.querySelector('#capacity');
 const btnSubmit = form.querySelector('.ad-form__submit');
+const price = form.querySelector('#price');
+const typeRooms = form.querySelector('#type');
+const checkIn = form.querySelector('#timein');
+const checkOut = form.querySelector('#timeout');
 const allInputs = [...formInputs, ...mapInputs];
 
 form.classList.add('ad-form--disabled');
@@ -37,6 +41,14 @@ const capacityOptions = {
   100: [0],
 };
 
+const pricesForRooms = {
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
+};
+
 
 const validateRooms = () => capacityOptions[parseInt(roomNumber.value, 10)].includes(parseInt(roomCapacity.value, 10));
 
@@ -66,6 +78,45 @@ const getGuestsErrorMessage = () => {
   }
 };
 
+const getPricesErrorMessage = () => {
+  switch (typeRooms.value) {
+    case 'bungalow':
+      return 'Минимальная цена - 0р';
+    case 'flat':
+      return 'Минимальная цена - 1000р';
+    case 'hotel':
+      return 'Минимальная цена - 3000р';
+    case 'house':
+      return 'Минимальная цена - 5000р';
+    case 'palace':
+      return 'Минимальная цена - 10000р';
+  }
+};
+
+const validatePrice = () => pricesForRooms[typeRooms.value] <= price.value;
+
+checkIn.addEventListener('change', () => {
+  checkOut.value = checkIn.value;
+});
+
+checkOut.addEventListener('change', () => {
+  checkIn.value = checkOut.value;
+});
+
+typeRooms.addEventListener('change', () => {
+  if (typeRooms.value === 'bungalow') {
+    price.placeholder = '0';
+  } else if (typeRooms.value === 'flat') {
+    price.placeholder = '1000';
+  } else if (typeRooms.value === 'hotel') {
+    price.placeholder = '3000';
+  } else if (typeRooms.value === 'house') {
+    price.placeholder = '5000';
+  } else if (typeRooms.value === 'palace') {
+    price.placeholder = '10000';
+  }
+});
+
 form.addEventListener('change', (e) => {
   e.preventDefault();
 
@@ -77,7 +128,9 @@ form.addEventListener('change', (e) => {
   }
 });
 
-pristine.addValidator(roomNumber, validateRooms, getRoomsErrorMessage, 2, false);
-pristine.addValidator(roomCapacity, validateRooms, getGuestsErrorMessage, 2, false);
+pristine.addValidator(roomNumber, validateRooms, getRoomsErrorMessage, 10, false);
+pristine.addValidator(roomCapacity, validateRooms, getGuestsErrorMessage, 20, false);
+pristine.addValidator(price, validatePrice, getPricesErrorMessage, 30, false);
+pristine.addValidator(typeRooms, validatePrice, getPricesErrorMessage, 40, false);
 
 export { unblockForms, map };
