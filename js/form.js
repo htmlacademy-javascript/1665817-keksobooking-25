@@ -133,4 +133,4 @@ pristine.addValidator(roomCapacity, validateRooms, getGuestsErrorMessage, 20, fa
 pristine.addValidator(price, validatePrice, getPricesErrorMessage, 30, false);
 pristine.addValidator(typeRooms, validatePrice, getPricesErrorMessage, 40, false);
 
-export { unblockForms, map };
+export { unblockForms, map, price };
