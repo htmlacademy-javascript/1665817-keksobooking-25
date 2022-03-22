@@ -65,8 +65,8 @@ const getUniqueId = () => {
 
 const createAd = () => {
 
-  const locationLat = getRandomFloat(LAT_MIN, LAT_MAX, 4);
-  const locationLng = getRandomFloat(LNG_MIN, LNG_MAX, 4);
+  const locationLat = getRandomFloat(LAT_MIN, LAT_MAX, 5);
+  const locationLng = getRandomFloat(LNG_MIN, LNG_MAX, 5);
 
   return {
     author: {
@@ -75,7 +75,7 @@ const createAd = () => {
     offer: {
       title: 'Наше предложение:',
       address: `${locationLat} ${locationLng}`,
-      price: getRandomNumber(1000, 10000),
+      price: getRandomNumber(0, 100000),
       type: getRandomArrayElement(TYPE),
       rooms: getRandomNumber(1, 5),
       guests: getRandomNumber(1, 10),

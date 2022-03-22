@@ -2,7 +2,6 @@ const form = document.querySelector('.ad-form');
 const formInputs = form.querySelectorAll('fieldset');
 const mapFilters = document.querySelector('.map__filters');
 const mapInputs = mapFilters.querySelectorAll('select, fieldset');
-const map = document.querySelector('.map__canvas');
 const roomNumber = form.querySelector('#room_number');
 const roomCapacity = form.querySelector('#capacity');
 const btnSubmit = form.querySelector('.ad-form__submit');
@@ -133,4 +132,4 @@ pristine.addValidator(roomCapacity, validateRooms, getGuestsErrorMessage, 20, fa
 pristine.addValidator(price, validatePrice, getPricesErrorMessage, 30, false);
 pristine.addValidator(typeRooms, validatePrice, getPricesErrorMessage, 40, false);
 
-export { unblockForms, map, price };
+export { unblockForms, price };
