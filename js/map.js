@@ -55,40 +55,22 @@ const secondIcons = L.icon({
   iconAnchor: [20, 40],
 });
 
-const ad = (item, addItem) => `
-      <article class="popup">
-        <img src="${item.author.avatar}" class="popup__avatar ${addItem.checkContent(item.author.avatar)}" width="70" height="70" alt="Аватар пользователя">
-        <h3 class="popup__title ${addItem.checkContent(item.offer.title)}"> ${item.offer.title}</h3>
-        <p class="popup__text popup__text--address ${addItem.checkContent(item.offer.address)}"> ${item.offer.address}</p>
-        <p class="popup__text popup__text--price ${addItem.checkContent(item.offer.price)}"> ${item.offer.price} <span>₽/ночь</span></p>
-        <h4 class="popup__type ${addItem.checkContent(item.offer.type)}">${addItem.typesOfRooms[item.offer.type]}</h4>
-        <p class="popup__text popup__text--capacity ${addItem.checkContent(item.offer.rooms)} ${addItem.checkContent(item.offer.guests)}"> ${item.offer.rooms} ${addItem.getDeclension(item.offer.rooms, ['комната', 'комнаты', 'комнат'])} для ${item.offer.guests} ${addItem.getDeclension(item.offer.guests, ['гостя', 'гостей', 'гостей'])}</p>
-        <p class="popup__text popup__text--time ${addItem.checkContent(item.offer.checkin)} ${addItem.checkContent(item.offer.checkout)}">Заезд после ${item.offer.checkin}, выезд до ${item.offer.checkout}</p>
-        <ul class="popup__features ${addItem.checkContent(item.offer.features)}">
-          ${addItem.getFeaturesList}
-        </ul>
-        <p class="popup__description ${addItem.checkContent(item.offer.description)}">${item.offer.description}</p>
-        <div class="popup__photos ${addItem.checkContent(item.offer.photos)}">
-          ${addItem.getPhotosList}
-        </div>
-      </article>
-`;
 
-ads.forEach((item) => {
-  const lat = item.location.lat;
-  const lng = item.location.lng;
+// ads.forEach((item) => {
+//   const lat = item.location.lat;
+//   const lng = item.location.lng;
 
-  const secondMarkers = L.marker({
-    lat,
-    lng,
-  },
-    {
-      icon: secondIcons,
-    },
-  );
+//   const secondMarkers = L.marker({
+//     lat,
+//     lng,
+//   },
+//     {
+//       icon: secondIcons,
+//     },
+//   );
 
-  secondMarkers.addTo(map)
-    .bindPopup(ad(ads, render));
-});
+//   secondMarkers.addTo(map)
+//     .bindPopup(ad(ads, render));
+// });
 
 export { map };

@@ -1,33 +1,33 @@
 import getDeclension from './declension.js';
 
-const adForm = document.querySelector('#map-canvas');
+
+const render = (item) => {
+  let features = [];
+  if (Array.isArray(item.offer.features)) {
+    features = item.offer.features;
+  }
+  const getFeaturesList = item.offer.features.reduce((acc, feat) => {
+    const list = `${acc}<li class="popup__feature popup__feature--${feat}"></li>`;
+    return list;
+  }, '');
 
 
-const render = (data) => {
+  const getPhotosList = item.offer.photos.reduce((acc, photos) => {
+    const list = `${acc}<img src="${photos}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
+    return list;
+  }, '');
 
-  data.forEach((item) => {
+  const typesOfRooms = {
+    palace: 'Дворец',
+    flat: 'Квартира',
+    house: 'Дом',
+    bungalow: 'Бунгало',
+    hotel: 'Отель',
+  };
 
-    const getFeaturesList = item.offer.features.reduce((acc, features) => {
-      const list = `${acc}<li class="popup__feature popup__feature--${features}"></li>`;
-      return list;
-    }, '');
+  const checkContent = (key) => key ? '' : 'hidden';
 
-    const getPhotosList = item.offer.photos.reduce((acc, photos) => {
-      const list = `${acc}<img src="${photos}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
-      return list;
-    }, '');
-
-    const typesOfRooms = {
-      palace: 'Дворец',
-      flat: 'Квартира',
-      house: 'Дом',
-      bungalow: 'Бунгало',
-      hotel: 'Отель',
-    };
-
-    const checkContent = (key) => key ? '' : 'hidden';
-
-    return `
+  return `
     <article class="popup">
       <img src="${item.author.avatar}" class="popup__avatar ${checkContent(item.author.avatar)}" width="70" height="70" alt="Аватар пользователя">
         <h3 class="popup__title ${checkContent(item.offer.title)}"> ${item.offer.title}</h3>
@@ -44,7 +44,6 @@ const render = (data) => {
           ${getPhotosList}
         </div>
     </article>`;
-  });
 };
 
 export { render };

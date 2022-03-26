@@ -97,12 +97,13 @@ const getData = () => {
   fetch('https://25.javascript.pages.academy/keksobooking/data')
     .then((response) => response.json())
     .then((item) => {
+      const dataAd = item;
+      console.log(dataAd);
       render(item);
-      console.log(render(item));
-    })
-    .catch(() => {
-      throw new Error('Данные не были получены!');
     });
+  // .catch(() => {
+  //   throw new Error('Данные не были получены!');
+  // });
 };
 getData();
 export { getData };
