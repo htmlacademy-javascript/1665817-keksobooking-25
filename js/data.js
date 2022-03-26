@@ -1,4 +1,5 @@
 import { getRandomNumber, getRandomFloat } from './random.js';
+import { render } from './renderData.js';
 
 const TYPE = [
   'palace',
@@ -94,17 +95,13 @@ const createAd = () => {
 
 const getData = () => {
   fetch('https://25.javascript.pages.academy/keksobooking/data')
-    .then((response) => {
-      console.log(response);
-      if (response.ok) {
-        console.log(response.json());
-        return response.json();
-      } else {
-        throw new Error('Данные не были получены!');
-      }
+    .then((response) => response.json())
+    .then((item) => {
+      render(item);
+      console.log(render(item));
     })
-    .catch((error) => {
-      console.error(error.message);
+    .catch(() => {
+      throw new Error('Данные не были получены!');
     });
 };
 getData();
