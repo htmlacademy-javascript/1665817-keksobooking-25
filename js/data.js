@@ -92,4 +92,18 @@ const createAd = () => {
   };
 };
 
-export { createAd };
+const getData = () => {
+  fetch('https://25.javascript.pages.academy/keksobooking/data')
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Данные не были получены!');
+      }
+    })
+    .catch((error) => {
+      console.error(error.message);
+    });
+};
+
+export { getData };
