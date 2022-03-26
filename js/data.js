@@ -95,7 +95,9 @@ const createAd = () => {
 const getData = () => {
   fetch('https://25.javascript.pages.academy/keksobooking/data')
     .then((response) => {
+      console.log(response);
       if (response.ok) {
+        console.log(response.json());
         return response.json();
       } else {
         throw new Error('Данные не были получены!');
@@ -105,5 +107,5 @@ const getData = () => {
       console.error(error.message);
     });
 };
-
+getData();
 export { getData };
