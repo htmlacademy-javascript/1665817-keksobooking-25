@@ -2,9 +2,8 @@ import getDeclension from './declension.js';
 
 
 const render = (item) => {
-  let features = [];
-  if (Array.isArray(item.offer.features)) {
-    features = item.offer.features;
+  if (!item.offer.features) {
+    return '';
   }
   const getFeaturesList = item.offer.features.reduce((acc, feat) => {
     const list = `${acc}<li class="popup__feature popup__feature--${feat}"></li>`;
