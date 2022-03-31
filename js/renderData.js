@@ -2,31 +2,33 @@ import getDeclension from './declension.js';
 
 
 const render = (item) => {
-  if (!item.offer.features) {
-    return '';
-  }
-  const getFeaturesList = item.offer.features.reduce((acc, feat) => {
-    const list = `${acc}<li class="popup__feature popup__feature--${feat}"></li>`;
-    return list;
-  }, '');
+  if (item.offer) {
+    if (!item.offer.features) {
+
+    }
+  } else {
+    const getFeaturesList = item.offer.features.reduce((acc, feat) => {
+      const list = `${acc}<li class="popup__feature popup__feature--${feat}"></li>`;
+      return list;
+    }, '');
 
 
-  const getPhotosList = item.offer.photos.reduce((acc, photos) => {
-    const list = `${acc}<img src="${photos}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
-    return list;
-  }, '');
+    const getPhotosList = item.offer.photos.reduce((acc, photos) => {
+      const list = `${acc}<img src="${photos}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
+      return list;
+    }, '');
 
-  const typesOfRooms = {
-    palace: 'Дворец',
-    flat: 'Квартира',
-    house: 'Дом',
-    bungalow: 'Бунгало',
-    hotel: 'Отель',
-  };
+    const typesOfRooms = {
+      palace: 'Дворец',
+      flat: 'Квартира',
+      house: 'Дом',
+      bungalow: 'Бунгало',
+      hotel: 'Отель',
+    };
 
-  const checkContent = (key) => key ? '' : 'hidden';
+    const checkContent = (key) => key ? '' : 'hidden';
 
-  return `
+    return `
     <article class="popup">
       <img src="${item.author.avatar}" class="popup__avatar ${checkContent(item.author.avatar)}" width="70" height="70" alt="Аватар пользователя">
         <h3 class="popup__title ${checkContent(item.offer.title)}"> ${item.offer.title}</h3>
@@ -43,6 +45,7 @@ const render = (item) => {
           ${getPhotosList}
         </div>
     </article>`;
+  }
 };
 
 export { render };
