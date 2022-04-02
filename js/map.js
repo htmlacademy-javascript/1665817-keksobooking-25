@@ -46,7 +46,6 @@ marker.on('moveend', (e) => {
   address.value = `${LatLng.lat.toFixed(5)}` + ',' + `${LatLng.lng.toFixed(5)}`;
 });
 
-const ads = Array.from({ length: 10 },);
 
 const secondIcons = L.icon({
   iconUrl: './img/pin.svg',
@@ -55,12 +54,10 @@ const secondIcons = L.icon({
 });
 
 
-const createSecondMarkers = (item) => {
-  const lat = item.location.lat;
-  const lng = item.location.lng;
+const createSecondMarkers = ({ offer, author, location }) => {
   const secondMarkers = L.marker({
-    lat,
-    lng,
+    lat: location.lat,
+    lng: location.lng,
   },
     {
       icon: secondIcons,
@@ -68,24 +65,12 @@ const createSecondMarkers = (item) => {
   );
 
   secondMarkers.addTo(map)
-    .bindPopup(render(item));
+    .bindPopup(render({ offer, author }));
 };
 
-// ads.forEach((item) => {
-//   const lat = item.location.lat;
-//   const lng = item.location.lng;
-
-//   const secondMarkers = L.marker({
-//     lat,
-//     lng,
-//   },
-//     {
-//       icon: secondIcons,
-//     },
-//   );
-
-//   secondMarkers.addTo(map)
-//     .bindPopup(ad(ads, render));
-// });
-
-export { map, createSecondMarkers };
+const renderBaloons = (similarCards) => {
+  similarCards.forEach((item) => {
+    createSecondMarkers(item);
+  });
+};
+export { map, renderBaloons };
