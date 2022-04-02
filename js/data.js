@@ -1,5 +1,6 @@
 import { getRandomNumber, getRandomFloat } from './random.js';
 import { render } from './renderData.js';
+import { createSecondMarkers } from './map.js';
 
 const TYPE = [
   'palace',
@@ -100,6 +101,7 @@ const getData = () => {
       const dataAd = item;
       console.log(dataAd);
       render(item);
+      createSecondMarkers(item);
     });
   // .catch(() => {
   //   throw new Error('Данные не были получены!');

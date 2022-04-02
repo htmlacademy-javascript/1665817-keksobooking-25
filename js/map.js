@@ -1,5 +1,4 @@
 import { unblockForms } from './form.js';
-import { getData } from './data.js';
 import { render } from './renderData.js';
 
 const address = document.querySelector('#address');
@@ -56,6 +55,22 @@ const secondIcons = L.icon({
 });
 
 
+const createSecondMarkers = (item) => {
+  const lat = item.location.lat;
+  const lng = item.location.lng;
+  const secondMarkers = L.marker({
+    lat,
+    lng,
+  },
+    {
+      icon: secondIcons,
+    },
+  );
+
+  secondMarkers.addTo(map)
+    .bindPopup(render(item));
+};
+
 // ads.forEach((item) => {
 //   const lat = item.location.lat;
 //   const lng = item.location.lng;
@@ -73,4 +88,4 @@ const secondIcons = L.icon({
 //     .bindPopup(ad(ads, render));
 // });
 
-export { map };
+export { map, createSecondMarkers };

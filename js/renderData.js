@@ -2,21 +2,25 @@ import getDeclension from './declension.js';
 
 
 const render = (item) => {
+  console.log(item.offer);
   if (item.offer) {
     if (!item.offer.features) {
-
+      return '';
+    } else {
+      const getFeaturesList = item.offer.features.reduce((acc, feat) => {
+        const list = `${acc}<li class="popup__feature popup__feature--${feat}"></li>`;
+        return list;
+      }, '');
     }
-  } else {
-    const getFeaturesList = item.offer.features.reduce((acc, feat) => {
-      const list = `${acc}<li class="popup__feature popup__feature--${feat}"></li>`;
-      return list;
-    }, '');
 
-
-    const getPhotosList = item.offer.photos.reduce((acc, photos) => {
-      const list = `${acc}<img src="${photos}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
-      return list;
-    }, '');
+    if (!item.offer.photos) {
+      return '';
+    } else {
+      const getPhotosList = item.offer.photos.reduce((acc, photos) => {
+        const list = `${acc}<img src="${photos}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
+        return list;
+      }, '');
+    }
 
     const typesOfRooms = {
       palace: 'Дворец',
