@@ -5,16 +5,15 @@ const render = (item) => {
   let features = '';
   let photos = '';
   if (item.offer) {
-    // eslint-disable-next-line no-empty
-    if (!item.offer.features) { } else {
+
+    if (item.offer.features) {
       features = item.offer.features.reduce((acc, feat) => {
         const list = `${acc}<li class="popup__feature popup__feature--${feat}"></li>`;
         return list;
       }, '');
     }
 
-    // eslint-disable-next-line no-empty
-    if (!item.offer.photos) { } else {
+    if (item.offer.photos) {
       photos = item.offer.photos.reduce((acc, photo) => {
         const list = `${acc}<img src="${photo}" class="popup__photo" width="45" height="40" alt="Фотография жилья">`;
         return list;
