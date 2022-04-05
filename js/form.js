@@ -1,3 +1,7 @@
+import { createMessage, succesMessage, errorMessage } from './alerts.js';
+import { resetSlider } from './slider.js';
+import { resetMap } from './map.js';
+
 const form = document.querySelector('.ad-form');
 const formInputs = form.querySelectorAll('fieldset');
 const mapFilters = document.querySelector('.map__filters');
@@ -10,13 +14,17 @@ const typeRooms = form.querySelector('#type');
 const checkIn = form.querySelector('#timein');
 const checkOut = form.querySelector('#timeout');
 const allInputs = [...formInputs, ...mapInputs];
+const resetBtn = form.querySelector('.ad-form__reset');
 
 form.classList.add('ad-form--disabled');
 mapFilters.classList.add('ad-form--disabled');
 
-allInputs.forEach((item) => {
-  item.disabled = true;
-});
+const blockForms = () => {
+  allInputs.forEach((item) => {
+    item.disabled = true;
+  });
+};
+blockForms();
 
 const unblockForms = () => {
   form.classList.remove('ad-form--disabled');
@@ -27,7 +35,7 @@ const unblockForms = () => {
   });
 };
 
-const pristine = new Pristine(form, {
+const pristine = window.Pristine(form, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
   errorTextTag: 'span',
@@ -116,15 +124,39 @@ typeRooms.addEventListener('change', () => {
   }
 });
 
-form.addEventListener('change', (e) => {
+form.addEventListener('submit', (e) => {
   e.preventDefault();
 
   const isValid = pristine.validate();
   if (isValid) {
     btnSubmit.disabled = false;
+    const formData = new FormData(e.target);
+
+    fetch('https://25.javascript.pages.academy/keksobooking',
+      {
+        method: 'POST',
+        body: formData,
+        type: 'multipart/form-data',
+      },
+    );
+    form.reset();
+    mapFilters.reset();
+    btnSubmit.disabled = true;
+    resetSlider();
+    resetMap();
+    createMessage(succesMessage);
   } else {
+    createMessage(errorMessage);
     btnSubmit.disabled = true;
   }
+});
+
+resetBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  form.reset();
+  mapFilters.reset();
+  resetSlider();
+  resetMap();
 });
 
 pristine.addValidator(roomNumber, validateRooms, getRoomsErrorMessage, 10, false);

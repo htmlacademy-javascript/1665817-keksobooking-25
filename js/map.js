@@ -2,16 +2,18 @@ import { unblockForms } from './form.js';
 import { render } from './renderData.js';
 
 const address = document.querySelector('#address');
+const CENTER_LAT = 35.68950;
+const CENTER_LNG = 139.69171;
 
 const map = L.map('map-canvas')
   .on('load', () => {
     unblockForms();
-    address.value = '35.68950, 139.69171';
+    address.value = `${CENTER_LAT}, ${CENTER_LNG}`;
     address.readOnly = true;
   })
   .setView({
-    lat: 35.68950,
-    lng: 139.69171,
+    lat: CENTER_LAT,
+    lng: CENTER_LNG,
   }, 10);
 
 L.tileLayer(
@@ -27,10 +29,10 @@ const mainIcon = L.icon({
   iconAnchor: [26, 52],
 });
 
-const marker = L.marker(
+const mainMarker = L.marker(
   {
-    lat: 35.6895,
-    lng: 139.692,
+    lat: CENTER_LAT,
+    lng: CENTER_LNG,
   },
   {
     draggable: true,
@@ -38,12 +40,11 @@ const marker = L.marker(
   },
 );
 
-marker.addTo(map);
+mainMarker.addTo(map);
 
-marker.on('moveend', (e) => {
+mainMarker.on('moveend', (e) => {
   const LatLng = e.target.getLatLng();
-  // eslint-disable-next-line no-useless-concat
-  address.value = `${LatLng.lat.toFixed(5)}` + ',' + `${LatLng.lng.toFixed(5)}`;
+  address.value = `${LatLng.lat.toFixed(5)}, ${LatLng.lng.toFixed(5)}`;
 });
 
 
@@ -73,4 +74,19 @@ const renderBaloons = (similarCards) => {
     createSecondMarkers(item);
   });
 };
-export { map, renderBaloons };
+
+const resetMap = () => {
+  address.value = `${CENTER_LAT}, ${CENTER_LNG}`;
+  mainMarker.setLatLng({
+    lat: CENTER_LAT,
+    lng: CENTER_LNG,
+  });
+
+  map.setView({
+    lat: CENTER_LAT,
+    lng: CENTER_LNG,
+  }, 10);
+  map.closePopup();
+};
+
+export { map, renderBaloons, resetMap };

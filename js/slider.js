@@ -1,6 +1,5 @@
-import { price } from './form.js';
-
 const sliderElement = document.querySelector('.ad-form__slider');
+const price = document.querySelector('#price');
 
 price.value = 1000;
 
@@ -26,4 +25,12 @@ sliderElement.noUiSlider.on('update', () => {
   price.value = sliderElement.noUiSlider.get();
 });
 
-export { sliderElement };
+price.addEventListener('change', () => {
+  sliderElement.noUiSlider.set(price.value);
+});
+
+const resetSlider = () => {
+  sliderElement.noUiSlider.reset();
+};
+
+export { sliderElement, resetSlider };
