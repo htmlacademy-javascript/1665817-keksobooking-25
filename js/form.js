@@ -35,29 +35,29 @@ const unblockForms = () => {
   });
 };
 
-const pristine = window.Pristine(form, {
+const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
   errorTextParent: 'ad-form__element',
   errorTextTag: 'span',
 });
 
+
 const capacityOptions = {
-  1: [1],
-  2: [1, 2],
-  3: [1, 2, 3],
-  100: [0],
+  '1': ['1'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
+  '100': ['0'],
 };
 
 const pricesForRooms = {
-  bungalow: 0,
-  flat: 1000,
-  hotel: 3000,
-  house: 5000,
-  palace: 10000,
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000,
 };
 
-
-const validateRooms = () => capacityOptions[parseInt(roomNumber.value, 10)].includes(parseInt(roomCapacity.value, 10));
+const validateRooms = () => capacityOptions[roomNumber.value].includes(roomCapacity.value);
 
 const getRoomsErrorMessage = () => {
   switch (parseInt(roomNumber.value, 10)) {
@@ -73,7 +73,7 @@ const getRoomsErrorMessage = () => {
 };
 
 const getGuestsErrorMessage = () => {
-  switch (parseInt(roomCapacity.value, 10)) {
+  switch (roomCapacity.value) {
     case 3:
       return 'Подойдёт только 3 комнаты';
     case 2:
@@ -113,14 +113,19 @@ checkOut.addEventListener('change', () => {
 typeRooms.addEventListener('change', () => {
   if (typeRooms.value === 'bungalow') {
     price.placeholder = '0';
+    price.value = '0';
   } else if (typeRooms.value === 'flat') {
     price.placeholder = '1000';
+    price.value = '1000';
   } else if (typeRooms.value === 'hotel') {
     price.placeholder = '3000';
+    price.value = '3000';
   } else if (typeRooms.value === 'house') {
     price.placeholder = '5000';
+    price.value = '5000';
   } else if (typeRooms.value === 'palace') {
     price.placeholder = '10000';
+    price.value = '10000';
   }
 });
 
@@ -129,7 +134,6 @@ form.addEventListener('submit', (e) => {
 
   const isValid = pristine.validate();
   if (isValid) {
-    btnSubmit.disabled = false;
     const formData = new FormData(e.target);
 
     fetch('https://25.javascript.pages.academy/keksobooking',
@@ -147,7 +151,6 @@ form.addEventListener('submit', (e) => {
     createMessage(succesMessage);
   } else {
     createMessage(errorMessage);
-    btnSubmit.disabled = true;
   }
 });
 
@@ -159,9 +162,19 @@ resetBtn.addEventListener('click', (e) => {
   resetMap();
 });
 
+form.addEventListener('change', (e) => {
+  e.preventDefault();
+  const isValid = pristine.validate();
+  if (isValid) {
+    btnSubmit.disabled = false;
+  } else {
+    btnSubmit.disabled = true;
+  }
+});
+
 pristine.addValidator(roomNumber, validateRooms, getRoomsErrorMessage, 10, false);
 pristine.addValidator(roomCapacity, validateRooms, getGuestsErrorMessage, 20, false);
 pristine.addValidator(price, validatePrice, getPricesErrorMessage, 30, false);
 pristine.addValidator(typeRooms, validatePrice, getPricesErrorMessage, 40, false);
 
-export { unblockForms, price };
+export { unblockForms };
