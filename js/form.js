@@ -1,3 +1,7 @@
+import { createMessage, succesMessage, errorMessage } from './alerts.js';
+import { resetSlider } from './slider.js';
+import { resetMap } from './map.js';
+
 const form = document.querySelector('.ad-form');
 const formInputs = form.querySelectorAll('fieldset');
 const mapFilters = document.querySelector('.map__filters');
@@ -10,13 +14,17 @@ const typeRooms = form.querySelector('#type');
 const checkIn = form.querySelector('#timein');
 const checkOut = form.querySelector('#timeout');
 const allInputs = [...formInputs, ...mapInputs];
+const resetBtn = form.querySelector('.ad-form__reset');
 
 form.classList.add('ad-form--disabled');
 mapFilters.classList.add('ad-form--disabled');
 
-allInputs.forEach((item) => {
-  item.disabled = true;
-});
+const blockInputs = () => {
+  allInputs.forEach((item) => {
+    item.disabled = true;
+  });
+};
+blockInputs();
 
 const unblockForms = () => {
   form.classList.remove('ad-form--disabled');
@@ -33,23 +41,29 @@ const pristine = new Pristine(form, {
   errorTextTag: 'span',
 });
 
+const resetForm = () => {
+  form.reset();
+  mapFilters.reset();
+  resetSlider();
+  resetMap();
+};
+
 const capacityOptions = {
-  1: [1],
-  2: [1, 2],
-  3: [1, 2, 3],
-  100: [0],
+  '1': ['1'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
+  '100': ['0'],
 };
 
 const pricesForRooms = {
-  bungalow: 0,
-  flat: 1000,
-  hotel: 3000,
-  house: 5000,
-  palace: 10000,
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000,
 };
 
-
-const validateRooms = () => capacityOptions[parseInt(roomNumber.value, 10)].includes(parseInt(roomCapacity.value, 10));
+const validateRooms = () => capacityOptions[roomNumber.value].includes(roomCapacity.value);
 
 const getRoomsErrorMessage = () => {
   switch (parseInt(roomNumber.value, 10)) {
@@ -65,7 +79,7 @@ const getRoomsErrorMessage = () => {
 };
 
 const getGuestsErrorMessage = () => {
-  switch (parseInt(roomCapacity.value, 10)) {
+  switch (roomCapacity.value) {
     case 3:
       return 'Подойдёт только 3 комнаты';
     case 2:
@@ -116,9 +130,42 @@ typeRooms.addEventListener('change', () => {
   }
 });
 
-form.addEventListener('change', (e) => {
+form.addEventListener('submit', (e) => {
   e.preventDefault();
 
+  const isValid = pristine.validate();
+  if (isValid) {
+    const formData = new FormData(e.target);
+    btnSubmit.disabled = true;
+
+    fetch('https://25.javascript.pages.academy/keksobooking',
+      {
+        method: 'POST',
+        body: formData,
+        type: 'multipart/form-data',
+      },
+    )
+      .then(() => {
+        resetForm();
+        createMessage(succesMessage);
+      })
+      .catch(() => {
+        createMessage(errorMessage);
+      })
+      .finally(() => {
+        btnSubmit.disabled = false;
+      });
+  }
+});
+
+
+resetBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  resetForm();
+});
+
+form.addEventListener('change', (e) => {
+  e.preventDefault();
   const isValid = pristine.validate();
   if (isValid) {
     btnSubmit.disabled = false;
@@ -132,4 +179,4 @@ pristine.addValidator(roomCapacity, validateRooms, getGuestsErrorMessage, 20, fa
 pristine.addValidator(price, validatePrice, getPricesErrorMessage, 30, false);
 pristine.addValidator(typeRooms, validatePrice, getPricesErrorMessage, 40, false);
 
-export { unblockForms, price };
+export { unblockForms };
