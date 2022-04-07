@@ -19,12 +19,12 @@ const resetBtn = form.querySelector('.ad-form__reset');
 form.classList.add('ad-form--disabled');
 mapFilters.classList.add('ad-form--disabled');
 
-const blockForms = () => {
+const blockInputs = () => {
   allInputs.forEach((item) => {
     item.disabled = true;
   });
 };
-blockForms();
+blockInputs();
 
 const unblockForms = () => {
   form.classList.remove('ad-form--disabled');
@@ -41,6 +41,12 @@ const pristine = new Pristine(form, {
   errorTextTag: 'span',
 });
 
+const resetForm = () => {
+  form.reset();
+  mapFilters.reset();
+  resetSlider();
+  resetMap();
+};
 
 const capacityOptions = {
   '1': ['1'],
@@ -113,19 +119,14 @@ checkOut.addEventListener('change', () => {
 typeRooms.addEventListener('change', () => {
   if (typeRooms.value === 'bungalow') {
     price.placeholder = '0';
-    price.value = '0';
   } else if (typeRooms.value === 'flat') {
     price.placeholder = '1000';
-    price.value = '1000';
   } else if (typeRooms.value === 'hotel') {
     price.placeholder = '3000';
-    price.value = '3000';
   } else if (typeRooms.value === 'house') {
     price.placeholder = '5000';
-    price.value = '5000';
   } else if (typeRooms.value === 'palace') {
     price.placeholder = '10000';
-    price.value = '10000';
   }
 });
 
@@ -135,6 +136,7 @@ form.addEventListener('submit', (e) => {
   const isValid = pristine.validate();
   if (isValid) {
     const formData = new FormData(e.target);
+    btnSubmit.disabled = true;
 
     fetch('https://25.javascript.pages.academy/keksobooking',
       {
@@ -142,24 +144,24 @@ form.addEventListener('submit', (e) => {
         body: formData,
         type: 'multipart/form-data',
       },
-    );
-    form.reset();
-    mapFilters.reset();
-    btnSubmit.disabled = true;
-    resetSlider();
-    resetMap();
-    createMessage(succesMessage);
-  } else {
-    createMessage(errorMessage);
+    )
+      .then(() => {
+        resetForm();
+        createMessage(succesMessage);
+      })
+      .catch(() => {
+        createMessage(errorMessage);
+      })
+      .finally(() => {
+        btnSubmit.disabled = false;
+      });
   }
 });
 
+
 resetBtn.addEventListener('click', (e) => {
   e.preventDefault();
-  form.reset();
-  mapFilters.reset();
-  resetSlider();
-  resetMap();
+  resetForm();
 });
 
 form.addEventListener('change', (e) => {
