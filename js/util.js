@@ -16,4 +16,12 @@ const getDeclension = (num, expression) => {
   return result;
 };
 
-export default getDeclension;
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export { getDeclension, debounce };

@@ -1,4 +1,4 @@
-import getDeclension from './declension.js';
+import { getDeclension } from './util.js';
 
 
 const render = (item) => {

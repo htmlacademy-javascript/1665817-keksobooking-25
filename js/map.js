@@ -1,5 +1,6 @@
 import { unblockForms } from './form.js';
 import { render } from './renderData.js';
+import { houseFilters, checkFeatures } from './filters.js';
 
 const address = document.querySelector('#address');
 const CENTER_LAT = 35.68950;
@@ -47,6 +48,7 @@ mainMarker.on('moveend', (e) => {
   address.value = `${LatLng.lat.toFixed(5)}, ${LatLng.lng.toFixed(5)}`;
 });
 
+const similarMarkerLayer = L.layerGroup().addTo(map);
 
 const secondIcons = L.icon({
   iconUrl: './img/pin.svg',
@@ -56,21 +58,25 @@ const secondIcons = L.icon({
 
 
 const createSecondMarkers = ({ offer, author, location }) => {
-  const secondMarkers = L.marker({
-    lat: location.lat,
-    lng: location.lng,
-  },
+  const secondMarkers = L.marker(
+    {
+      lat: location.lat,
+      lng: location.lng,
+    },
     {
       icon: secondIcons,
     },
   );
 
-  secondMarkers.addTo(map)
+  secondMarkers.addTo(similarMarkerLayer)
     .bindPopup(render({ offer, author }));
 };
 
+const SIMILAR_AD_COUNT = 10;
+
 const renderBaloons = (similarCards) => {
-  similarCards.forEach((item) => {
+  similarMarkerLayer.clearLayers();
+  similarCards.slice().filter(houseFilters).slice(0, SIMILAR_AD_COUNT).sort(checkFeatures).forEach((item) => {
     createSecondMarkers(item);
   });
 };
@@ -88,5 +94,6 @@ const resetMap = () => {
   }, 10);
   map.closePopup();
 };
+
 
 export { map, renderBaloons, resetMap };

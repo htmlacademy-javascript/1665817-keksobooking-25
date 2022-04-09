@@ -2,10 +2,16 @@ import { getData } from './data.js';
 import { renderBaloons } from './map.js';
 import './map.js';
 import './slider.js';
+import { checkChanges, resetFiltres } from './filters.js';
+import { debounce } from './util.js';
 
-const SIMILAR_AD_COUNT = 10;
 
 getData((item) => {
-  renderBaloons(item.slice(0, SIMILAR_AD_COUNT));
+  renderBaloons(item);
+  checkChanges(debounce(
+    () => renderBaloons(item),
+    500,
+  ));
+  resetFiltres(() => renderBaloons(item));
 });
 
