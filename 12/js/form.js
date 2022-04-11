@@ -1,6 +1,7 @@
 import { createMessage, succesMessage, errorMessage } from './alerts.js';
 import { resetSlider } from './slider.js';
 import { resetMap } from './map.js';
+import { resetPics } from './photoPreview.js';
 
 const form = document.querySelector('.ad-form');
 const formInputs = form.querySelectorAll('fieldset');
@@ -46,6 +47,7 @@ const resetForm = () => {
   mapFilters.reset();
   resetSlider();
   resetMap();
+  resetPics();
 };
 
 const capacityOptions = {
