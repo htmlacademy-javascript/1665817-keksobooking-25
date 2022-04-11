@@ -35,7 +35,7 @@ const createMessage = (message) => {
   }
 };
 
-const succesMessage = `
+const successMessage = `
     <div class="success">
       <p class="success__message">Ваше объявление<br>успешно размещено!</p>
     </div>
@@ -54,4 +54,4 @@ const errorDataMessage = `
     </div>
 `;
 
-export { createMessage, succesMessage, errorMessage, errorDataMessage };
+export { createMessage, successMessage, errorMessage, errorDataMessage };
