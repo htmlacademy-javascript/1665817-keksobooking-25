@@ -1,10 +1,11 @@
 import { unblockForms } from './form.js';
-import { render } from './renderData.js';
+import { render } from './render-data.js';
 import { houseFilters, checkFeatures } from './filters.js';
 
 const address = document.querySelector('#address');
 const CENTER_LAT = 35.68950;
 const CENTER_LNG = 139.69171;
+const SIMILAR_AD_COUNT = 10;
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -43,8 +44,8 @@ const mainMarker = L.marker(
 
 mainMarker.addTo(map);
 
-mainMarker.on('moveend', (e) => {
-  const LatLng = e.target.getLatLng();
+mainMarker.on('moveend', (evt) => {
+  const LatLng = evt.target.getLatLng();
   address.value = `${LatLng.lat.toFixed(5)}, ${LatLng.lng.toFixed(5)}`;
 });
 
@@ -72,12 +73,10 @@ const createSecondMarkers = ({ offer, author, location }) => {
     .bindPopup(render({ offer, author }));
 };
 
-const SIMILAR_AD_COUNT = 10;
-
 const renderBaloons = (similarCards) => {
   similarMarkerLayer.clearLayers();
-  similarCards.slice().filter(houseFilters).slice(0, SIMILAR_AD_COUNT).sort(checkFeatures).forEach((item) => {
-    createSecondMarkers(item);
+  similarCards.slice().filter(houseFilters).slice(0, SIMILAR_AD_COUNT).sort(checkFeatures).forEach((items) => {
+    createSecondMarkers(items);
   });
 };
 

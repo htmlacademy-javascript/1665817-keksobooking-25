@@ -8,9 +8,9 @@ const createMessage = (message) => {
 
   const closeBtn = alertContainer.querySelector('.error__button');
 
-  const onDocumentKeydown = (e) => {
-    if (e.key === 'Escape') {
-      e.preventDefault();
+  const onDocumentKeydown = (evt) => {
+    if (evt.key === 'Escape') {
+      evt.preventDefault();
       onDocumentClose();
     }
   };

@@ -26,8 +26,8 @@ const filterFeatures = (offerFeatures) => {
   if (checkedFeatures.length !== 0) {
     if (offerFeatures) {
       let featuresCount = 0;
-      checkedFeatures.forEach((feature) => {
-        if (offerFeatures.includes(feature.value)) {
+      checkedFeatures.forEach((features) => {
+        if (offerFeatures.includes(features.value)) {
           featuresCount += 1;
         }
       });
@@ -70,5 +70,9 @@ const checkFeatures = (featureA, featureB) => {
   return rankB - rankA;
 };
 
+const resetFiltres = (cb) => {
+  mapFilters.addEventListener('reset', () => setTimeout(cb, 100));
+};
 
-export { houseFilters, checkChanges, checkFeatures };
+
+export { houseFilters, checkChanges, checkFeatures, resetFiltres };

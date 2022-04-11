@@ -16,11 +16,11 @@ const getDeclension = (num, expression) => {
   return result;
 };
 
-const debounce = (callback, timeoutDelay) => {
+const debounce = (cb, timeoutDelay) => {
   let timeoutId;
   return (...rest) => {
     clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+    timeoutId = setTimeout(() => cb.apply(this, rest), timeoutDelay);
   };
 };
 
