@@ -3,13 +3,13 @@ import { renderBaloons } from './map.js';
 import './slider.js';
 import { checkChanges } from './filters.js';
 import { debounce } from './util.js';
-import './photoPreview.js';
+import './photo-preview.js';
 
 
-getData((item) => {
-  renderBaloons(item);
+getData((items) => {
+  renderBaloons(items);
   checkChanges(debounce(
-    () => renderBaloons(item),
+    () => renderBaloons(items),
     500,
   ));
 });
