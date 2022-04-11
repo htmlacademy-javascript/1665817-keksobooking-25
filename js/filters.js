@@ -8,7 +8,7 @@ const featuresInputs = document.querySelectorAll('.map__checkbox');
 
 const filterValue = (input, cardField) => input.value === cardField || +input.value === cardField || input.value === 'any';
 
-const priceName = (price) => {
+const getPriceName = (price) => {
   if (price >= 50000) {
     return 'high';
   }
@@ -40,7 +40,7 @@ const filterFeatures = (offerFeatures) => {
 
 const houseFilters = ({ offer }) =>
   filterValue(houseType, offer.type) &&
-  filterValue(housePrice, priceName(offer.price)) &&
+  filterValue(housePrice, getPriceName(offer.price)) &&
   filterValue(houseRooms, offer.rooms) &&
   filterValue(houseGuests, offer.guests) &&
   filterFeatures(offer.features);
@@ -70,9 +70,17 @@ const checkFeatures = (featureA, featureB) => {
   return rankB - rankA;
 };
 
-const resetFiltres = (cb) => {
-  mapFilters.addEventListener('reset', () => setTimeout(cb, 100));
+const resetFilters = (cb) => {
+  mapFilters.addEventListener('reset', (evt) => {
+    evt.preventDefault();
+    houseType.value = 'any';
+    housePrice.value = 'any';
+    houseRooms.value = 'any';
+    houseGuests.value = 'any';
+    for (let i = 0; i < featuresInputs.length; ++i) { featuresInputs[i].checked = false; }
+    cb();
+  });
 };
 
 
-export { houseFilters, checkChanges, checkFeatures, resetFiltres };
+export { houseFilters, checkChanges, checkFeatures, resetFilters };

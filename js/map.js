@@ -2,10 +2,11 @@ import { unblockForms } from './form.js';
 import { render } from './render-data.js';
 import { houseFilters, checkFeatures } from './filters.js';
 
-const address = document.querySelector('#address');
 const CENTER_LAT = 35.68950;
 const CENTER_LNG = 139.69171;
 const SIMILAR_AD_COUNT = 10;
+const address = document.querySelector('#address');
+
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -75,7 +76,7 @@ const createSecondMarkers = ({ offer, author, location }) => {
 
 const renderBaloons = (similarCards) => {
   similarMarkerLayer.clearLayers();
-  similarCards.slice().filter(houseFilters).slice(0, SIMILAR_AD_COUNT).sort(checkFeatures).forEach((items) => {
+  similarCards.filter(houseFilters).slice(0, SIMILAR_AD_COUNT).sort(checkFeatures).forEach((items) => {
     createSecondMarkers(items);
   });
 };
