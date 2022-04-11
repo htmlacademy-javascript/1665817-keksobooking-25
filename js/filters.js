@@ -70,8 +70,5 @@ const checkFeatures = (featureA, featureB) => {
   return rankB - rankA;
 };
 
-const resetFiltres = (cb) => {
-  mapFilters.addEventListener('reset', () => setTimeout(cb, 100));
-};
 
-export { houseFilters, checkChanges, checkFeatures, resetFiltres };
+export { houseFilters, checkChanges, checkFeatures };

@@ -1,9 +1,9 @@
 import { getData } from './data.js';
 import { renderBaloons } from './map.js';
-import './map.js';
 import './slider.js';
-import { checkChanges, resetFiltres } from './filters.js';
+import { checkChanges } from './filters.js';
 import { debounce } from './util.js';
+import './photoPreview.js';
 
 
 getData((item) => {
@@ -12,6 +12,5 @@ getData((item) => {
     () => renderBaloons(item),
     500,
   ));
-  resetFiltres(() => renderBaloons(item));
 });
 
