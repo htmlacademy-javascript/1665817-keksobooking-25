@@ -1,7 +1,7 @@
 import { createMessage, succesMessage, errorMessage } from './alerts.js';
 import { resetSlider } from './slider.js';
 import { resetMap } from './map.js';
-import { resetPics } from './photoPreview.js';
+import { resetPics } from './photo-preview.js';
 
 const form = document.querySelector('.ad-form');
 const formInputs = form.querySelectorAll('fieldset');
@@ -132,12 +132,12 @@ typeRooms.addEventListener('change', () => {
   }
 });
 
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
+form.addEventListener('submit', (evt) => {
+  evt.preventDefault();
 
   const isValid = pristine.validate();
   if (isValid) {
-    const formData = new FormData(e.target);
+    const formData = new FormData(evt.target);
     btnSubmit.disabled = true;
 
     fetch('https://25.javascript.pages.academy/keksobooking',
@@ -161,13 +161,13 @@ form.addEventListener('submit', (e) => {
 });
 
 
-resetBtn.addEventListener('click', (e) => {
-  e.preventDefault();
+resetBtn.addEventListener('click', (evt) => {
+  evt.preventDefault();
   resetForm();
 });
 
-form.addEventListener('change', (e) => {
-  e.preventDefault();
+form.addEventListener('change', (evt) => {
+  evt.preventDefault();
   const isValid = pristine.validate();
   if (isValid) {
     btnSubmit.disabled = false;
