@@ -6,13 +6,19 @@ const houseFeatures = document.querySelector('#housing-features');
 const mapFilters = document.querySelector('.map__filters');
 const featuresInputs = document.querySelectorAll('.map__checkbox');
 
+const Prices = {
+  middle: { min: 10000, max: 50000 },
+  low: { min: 0, max: 10000 },
+  high: { min: 50000, max: 100000 },
+};
+
 const filterValue = (input, cardField) => input.value === cardField || +input.value === cardField || input.value === 'any';
 
 const getPriceName = (price) => {
-  if (price >= 50000) {
+  if (price >= Prices.high.min) {
     return 'high';
   }
-  if (price >= 10000) {
+  if (price >= Prices.middle.min) {
     return 'middle';
   }
   else {
@@ -38,7 +44,7 @@ const filterFeatures = (offerFeatures) => {
   return true;
 };
 
-const houseFilters = ({ offer }) =>
+const housingFiltration = ({ offer }) =>
   filterValue(houseType, offer.type) &&
   filterValue(housePrice, getPriceName(offer.price)) &&
   filterValue(houseRooms, offer.rooms) &&
@@ -77,10 +83,12 @@ const resetFilters = (cb) => {
     housePrice.value = 'any';
     houseRooms.value = 'any';
     houseGuests.value = 'any';
-    for (let i = 0; i < featuresInputs.length; ++i) { featuresInputs[i].checked = false; }
+    featuresInputs.forEach((item) => {
+      item.checked = false;
+    });
     cb();
   });
 };
 
 
-export { houseFilters, checkChanges, checkFeatures, resetFilters };
+export { housingFiltration, checkChanges, checkFeatures, resetFilters };
