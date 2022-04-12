@@ -1,10 +1,12 @@
+const MESSAGE_DELAY = 5000;
+
 const createMessage = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.innerHTML = message;
   document.body.append(alertContainer);
   setTimeout(() => {
     alertContainer.remove();
-  }, 5000);
+  }, MESSAGE_DELAY);
 
   const closeBtn = alertContainer.querySelector('.error__button');
 

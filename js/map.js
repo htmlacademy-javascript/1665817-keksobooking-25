@@ -1,6 +1,6 @@
 import { unblockForms } from './form.js';
 import { render } from './render-data.js';
-import { houseFilters, checkFeatures } from './filters.js';
+import { housingFiltration, checkFeatures } from './filters.js';
 
 const CENTER_LAT = 35.68950;
 const CENTER_LNG = 139.69171;
@@ -76,7 +76,7 @@ const createSecondMarkers = ({ offer, author, location }) => {
 
 const renderBaloons = (similarCards) => {
   similarMarkerLayer.clearLayers();
-  similarCards.filter(houseFilters).slice(0, SIMILAR_AD_COUNT).sort(checkFeatures).forEach((items) => {
+  similarCards.filter(housingFiltration).slice(0, SIMILAR_AD_COUNT).sort(checkFeatures).forEach((items) => {
     createSecondMarkers(items);
   });
 };

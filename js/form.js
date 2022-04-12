@@ -3,6 +3,21 @@ import { resetSlider } from './slider.js';
 import { resetMap } from './map.js';
 import { resetPics } from './photo-preview.js';
 
+const CapacityOptions = {
+  '1': ['1'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
+  '100': ['0'],
+};
+
+const PricesForRooms = {
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000,
+};
+
 const form = document.querySelector('.ad-form');
 const formInputs = form.querySelectorAll('fieldset');
 const mapFilters = document.querySelector('.map__filters');
@@ -19,21 +34,6 @@ const resetBtn = form.querySelector('.ad-form__reset');
 
 form.classList.add('ad-form--disabled');
 mapFilters.classList.add('ad-form--disabled');
-
-const CapacityOptions = {
-  '1': ['1'],
-  '2': ['1', '2'],
-  '3': ['1', '2', '3'],
-  '100': ['0'],
-};
-
-const PricesForRooms = {
-  'bungalow': 0,
-  'flat': 1000,
-  'hotel': 3000,
-  'house': 5000,
-  'palace': 10000,
-};
 
 const blockInputs = () => {
   allInputs.forEach((item) => {
